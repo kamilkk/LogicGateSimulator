@@ -8,12 +8,10 @@ enable_testing()
 
 macro(add_logic_test TEST_NAME FILE_NAME)
     add_executable(${TEST_NAME} ${FILE_NAME})
-    target_link_libraries(${TEST_NAME} PRIVATE gtest_main)
-    target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
+    # Link against GoogleTest and our soon-to-be-created logic_core library
+    target_link_libraries(${TEST_NAME} PRIVATE gtest_main logic_core)
     add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
 endmacro()
 
 add_logic_test(test_wire test_wire.cpp)
-# add_logic_test(test_gate test_gate.cpp)
-# add_logic_test(test_simulator test_simulator.cpp)
-# add_logic_test(test_integration test_integration.cpp)
+add_logic_test(test_gate test_gate.cpp)
