@@ -1,7 +1,8 @@
 #include "AndGate.h"
+#include "Simulator.h"
 
-AndGate::AndGate(std::shared_ptr<Wire> in1, std::shared_ptr<Wire> in2, std::shared_ptr<Wire> out)
-    : input1(in1), input2(in2), output(out) {
+AndGate::AndGate(Simulator& sim, std::shared_ptr<Wire> in1, std::shared_ptr<Wire> in2, std::shared_ptr<Wire> out, uint64_t delay)
+    : sim(sim), input1(in1), input2(in2), output(out), delay(delay) {
     
     auto evalAction = [this]() { this->evaluate(); };
     input1->addAction(evalAction);
@@ -13,10 +14,10 @@ void AndGate::evaluate() {
     Signal b = input2->getSignal();
     
     if (a == Signal::High && b == Signal::High) {
-        output->setSignal(Signal::High);
+        sim.scheduleEvent(delay, output, Signal::High);
     } else if (a == Signal::Unknown || b == Signal::Unknown) {
-        output->setSignal(Signal::Unknown);
+        sim.scheduleEvent(delay, output, Signal::Unknown);
     } else {
-        output->setSignal(Signal::Low);
+        sim.scheduleEvent(delay, output, Signal::Low);
     }
 }
