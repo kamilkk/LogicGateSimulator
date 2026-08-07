@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <functional>
 #include "Signal.h"
@@ -7,25 +9,11 @@ using Action = std::function<void()>;
 
 class Wire {
 public:
-    Wire() : state(Signal::Unknown) {}
+    Wire();
 
-    Signal getSignal() const { return state; }
-    
-    void setSignal(Signal new_state) {
-        if (state != new_state) {
-            state = new_state;
-            // Notify all connected gates that the signal changed
-            for (auto& action : actions) {
-                action();
-            }
-        }
-    }
-
-    // Allow a gate to register itself to be notified on state change
-    void addAction(Action action) {
-        actions.push_back(action);
-        action(); // Trigger immediately to evaluate initial state
-    }
+    Signal getSignal() const;
+    void setSignal(Signal new_state);
+    void addAction(Action action);
 
 private:
     Signal state;
