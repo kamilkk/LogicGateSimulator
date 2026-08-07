@@ -15,3 +15,4 @@ endmacro()
 
 add_logic_test(test_wire test_wire.cpp)
 add_logic_test(test_gate test_gate.cpp)
+add_logic_test(test_simulator test_simulator.cpp)
