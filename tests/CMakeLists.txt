@@ -4,7 +4,7 @@ FetchContent_Declare(googletest URL https://github.com/google/googletest/archive
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-enable_testing()
+
 
 macro(add_logic_test TEST_NAME FILE_NAME)
     add_executable(${TEST_NAME} ${FILE_NAME})

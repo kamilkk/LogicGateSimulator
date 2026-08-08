@@ -1,21 +1,21 @@
-#include "AndGate.h"
+#include "XorGate.h"
 #include "Simulator.h"
 
-AndGate::AndGate(Simulator& sim, std::shared_ptr<Wire> in1, std::shared_ptr<Wire> in2, std::shared_ptr<Wire> out, uint64_t delay)
+XorGate::XorGate(Simulator& sim, std::shared_ptr<Wire> in1, std::shared_ptr<Wire> in2, std::shared_ptr<Wire> out, uint64_t delay)
     : sim(sim), input1(in1), input2(in2), output(out), delay(delay) {
     auto evalAction = [this]() { this->evaluate(); };
     input1->addAction(evalAction);
     input2->addAction(evalAction);
 }
 
-void AndGate::evaluate() {
+void XorGate::evaluate() {
     Signal a = input1->getSignal();
     Signal b = input2->getSignal();
     
-    if (a == Signal::High && b == Signal::High) {
-        sim.scheduleEvent(delay, output, Signal::High);
-    } else if (a == Signal::Unknown || b == Signal::Unknown) {
+    if (a == Signal::Unknown || b == Signal::Unknown) {
         sim.scheduleEvent(delay, output, Signal::Unknown);
+    } else if (a != b) {
+        sim.scheduleEvent(delay, output, Signal::High);
     } else {
         sim.scheduleEvent(delay, output, Signal::Low);
     }

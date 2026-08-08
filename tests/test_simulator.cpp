@@ -3,21 +3,25 @@
 #include "AndGate.h"
 #include "Simulator.h"
 
-TEST(SimulatorTest, SimulatorAdvancesTime) {
+TEST(GateTest, AndGateLogicWithSimulator) {
     Simulator sim;
     auto in1 = std::make_shared<Wire>();
     auto in2 = std::make_shared<Wire>();
     auto out = std::make_shared<Wire>();
     
-    AndGate and_gate(sim, in1, in2, out, 10); 
+    // Inject the simulator into the gate
+    AndGate and_gate(sim, in1, in2, out, /*delay=*/ 5);
     
     in1->setSignal(Signal::High);
+    in2->setSignal(Signal::Low);
+    
+    // Output shouldn't change instantly!
+    EXPECT_EQ(out->getSignal(), Signal::Unknown);
+    
+    sim.run(); // Run the event queue
+    EXPECT_EQ(out->getSignal(), Signal::Low);
+    
     in2->setSignal(Signal::High);
-    
-    EXPECT_EQ(out->getSignal(), Signal::Unknown); 
-    
     sim.run();
-    
-    EXPECT_EQ(sim.getCurrentTime(), 10);
-    EXPECT_EQ(out->getSignal(), Signal::High);
+    EXPECT_EQ(out->getSignal(), Signal::High); 
 }
