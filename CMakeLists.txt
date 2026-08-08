@@ -12,6 +12,7 @@ FetchContent_Declare(ftxui
   GIT_TAG main
 )
 FetchContent_MakeAvailable(ftxui)
+
 add_executable(MySimulator src/main.cpp)
 # Notice we link against both ftxui AND our logic_core engine!
 target_link_libraries(MySimulator PRIVATE logic_core ftxui::screen ftxui::dom ftxui::component)
