@@ -6,9 +6,9 @@
 
 class Simulator; 
 
-class AndGate : public Gate {
+class OrGate : public Gate {
 public:
-    AndGate(Simulator& sim, std::shared_ptr<Wire> in1, std::shared_ptr<Wire> in2, std::shared_ptr<Wire> out, uint64_t delay = 5);
+    OrGate(Simulator& sim, std::shared_ptr<Wire> in1, std::shared_ptr<Wire> in2, std::shared_ptr<Wire> out, uint64_t delay = 5);
     void evaluate() override;
 
 private:
